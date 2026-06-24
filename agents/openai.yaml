@@ -1,0 +1,7 @@
+interface:
+  display_name: "方境 Blockscape"
+  short_description: "把现实带进方块世界。Bring reality into a world of blocks."
+  default_prompt: "Use $blockscape to directly edit the uploaded image into a polished block-game world while preserving its original composition."
+
+policy:
+  allow_implicit_invocation: true
