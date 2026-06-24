@@ -28,14 +28,25 @@ Choose the route before loading any reference or building a prompt:
 Keep routes isolated:
 
 - `@锁` is explicit and never inferred from `@真`.
-- `@UI` and `@准星` are independent presentation requests; never bind them automatically.
+- `@UI` means 16:9 plus the complete survival HUD and does not include a crosshair.
+- `@准星` implies `@UI`: output 16:9 with the complete survival HUD and exactly one centered crosshair.
+- `@UI @准星` is identical to `@准星`; never duplicate the HUD or crosshair.
 - If `@真` and `@UI` appear in the first request, perform person preservation, environment conversion, 16:9 extension, and HUD creation in one image edit.
+- If `@真` and `@准星` appear, perform the same combined edit and add exactly one centered crosshair.
 - If UI or a crosshair is requested after a result was accepted, edit that accepted result only. Do not restart from the original or rerun Blockscape conversion.
 - Normal generation must not read tests or run a full scoring rubric.
 
+## Canvas-size rule
+
+- Without `@UI` or `@准星`, preserve the uploaded source image's exact pixel dimensions and aspect ratio.
+- This applies to default blockification, `@真`, and `@锁`.
+- Do not crop, extend, letterbox, rotate, or change orientation without `@UI` or `@准星`.
+- Both `@UI` and `@准星` switch the output canvas to 16:9.
+- Extend the environment laterally when needed instead of moving, resizing, or cropping the main subject.
+
 ## A — Default blockification
 
-- Edit the source directly and keep its aspect ratio unless explicitly changed.
+- Edit the source directly and preserve its exact pixel dimensions and aspect ratio.
 - Preserve subject count, main pose, framing, camera height, horizon, key props, palette, and light direction.
 - Convert visible people into canonical block-game characters.
 - Use one square head, one rectangular torso, two whole rectangular arms, and two whole rectangular legs.
@@ -88,14 +99,15 @@ Retry only for obvious person drift or scene-layout drift:
 - Add one nine-slot survival hotbar, one selected slot, hearts, hunger icons, and one experience bar.
 - Put 7–9 distinct recognizable pixel items in the hotbar; the selected slot must contain an item.
 - Prefer a pickaxe, sword, axe, shovel, torch, food, building block, map, or compass.
-- Do not add a crosshair unless separately requested.
 - For a first request, include UI in the same edit as the requested Blockscape transformation.
+- Do not add a crosshair unless `@准星` is also present.
 - For a follow-up, preserve the accepted person and environment and modify only canvas extension and HUD.
 
 ## D — `@准星`
 
+- Apply every `@UI` rule: output 16:9 and add the complete survival HUD.
 - Add exactly one small centered pixel crosshair.
-- Do not add a hotbar, hearts, hunger, experience bar, first-person hand, text, or menus unless separately requested.
+- Do not add a second HUD or second crosshair when `@UI` is also present.
 - Do not change the person or scene.
 - For a follow-up, edit the accepted result directly.
 
@@ -118,6 +130,8 @@ Retry only for obvious person drift or scene-layout drift:
 Edit the uploaded image directly into polished block-building-game key art.
 
 Preserve the original subject count, main pose, framing, camera height, horizon, key props, palette, and light direction.
+
+Preserve the uploaded source image's exact pixel dimensions and aspect ratio.
 
 Convert visible people into canonical six-part block-game characters using one square head, one rectangular torso, two whole rectangular arms, and two whole rectangular legs.
 
@@ -147,6 +161,8 @@ Do not redraw, restyle, retouch, relight, recolor, move, resize, re-pose, replac
 
 Preserve the source composition and aspect ratio.
 
+Preserve the uploaded source image's exact pixel dimensions. Do not crop, extend, letterbox, rotate, or change orientation.
+
 Do not add extra people, text, logos, watermarks, UI, or a crosshair unless explicitly requested.
 ```
 
@@ -161,15 +177,17 @@ Add one clean nine-slot survival hotbar with 7–9 distinct recognizable pixel i
 
 Add aligned hearts, hunger icons, and one experience bar.
 
-Do not add a crosshair unless separately requested.
+Do not add a crosshair unless `@准星` is also present.
 ```
 
 ### Crosshair addendum
 
 ```text
+Apply the complete UI addendum: output in 16:9 with one nine-slot survival hotbar, one selected slot, hearts, hunger icons, and one experience bar.
+
 Add exactly one small centered pixel crosshair.
 
-Do not add a hotbar, hearts, hunger icons, an experience bar, a first-person hand, text, or menus unless separately requested.
+Do not add a second hotbar, second HUD, or second crosshair.
 ```
 
 ## Generation limit and return

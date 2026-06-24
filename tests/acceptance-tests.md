@@ -34,6 +34,9 @@ Any of these fails the result regardless of score:
 - subject count, main pose, or key props materially change;
 - unrequested text, logo, watermark, HUD, or crosshair appears.
 - UI is requested but the hotbar is entirely empty, the selected slot is empty, or fewer than seven slots contain recognizable items.
+- `@UI` is requested without `@准星` but any crosshair appears.
+- `@准星` is requested but the output is not 16:9, the complete survival HUD is missing, or the image does not contain exactly one centered crosshair.
+- both `@UI` and `@准星` are absent but the output pixel dimensions, aspect ratio, orientation, or canvas extent differs from the uploaded source.
 
 ## Scoring anchors
 
@@ -83,7 +86,7 @@ Prompt: `把这张照片变成 Minecraft 风格。`
 
 Expect:
 
-- source ratio and crop retained;
+- exact source pixel dimensions, ratio, orientation, and crop retained;
 - canonical six-part player model;
 - outfit and hair remain recognizable through large color regions;
 - flat stable face;
@@ -139,6 +142,7 @@ Prompt: `@真，把环境变成 Minecraft 风格。`
 
 Expect:
 
+- exact source pixel dimensions and aspect ratio retained;
 - all people remain the exact photographic source plate rather than a newly generated lookalike;
 - one direct edit of the original upload is attempted first;
 - the existing environment is blockified in place rather than replaced with a similar new scene;
@@ -163,6 +167,7 @@ Expect:
 - the person's bounding-box center, scale, pose, and crop remain anchored;
 - the canvas is extended with environment rather than by moving or resizing the person;
 - the HUD does not overlap the protected person region;
+- no crosshair is present unless `@准星` is also requested;
 - all preserve-real-person checks from Test 6 pass.
 
 ### 7. Gameplay HUD
@@ -173,23 +178,24 @@ Expect:
 
 - 16:9 output;
 - one nine-slot hotbar, one selected slot, hearts, hunger, and XP bar;
+- no crosshair;
 - 7–9 hotbar slots contain distinct recognizable pixel-item icons;
 - the selected slot contains a clearly visible tool or item;
 - item icons are centered inside their slots and do not float outside the hotbar;
 - the item set is coherent, such as a pickaxe, sword, axe, shovel, torch, food, building block, map, or compass;
 - no second hotbar, duplicate item row, malformed colored blobs, or nine empty slots;
-- no crosshair unless separately requested;
 - HUD does not cover a face or key prop.
 
-### 8. Independent crosshair
+### 8. Crosshair gameplay mode
 
-Prompt: `@准星，不要其他 UI。`
+Prompt: `@准星`
 
 Expect:
 
-- source ratio retained;
+- 16:9 output;
+- one nine-slot hotbar, one selected slot, hearts, hunger, and XP bar;
 - exactly one centered crosshair;
-- no hotbar, hearts, hunger, XP bar, hand, menu, or text.
+- no second HUD or crosshair.
 
 ### 9. Empty-hotbar repair
 
@@ -256,4 +262,5 @@ Expect:
 - do not restart from the original photo;
 - do not regenerate the block environment;
 - preserve the accepted person and environment;
-- modify only canvas extension and HUD.
+- modify only canvas extension and HUD;
+- do not add a crosshair unless the follow-up also includes `@准星`.
